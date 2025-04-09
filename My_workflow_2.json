@@ -1,0 +1,1348 @@
+{
+  "name": "My workflow 4",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "assignment_webhook_4321",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        0,
+        0
+      ],
+      "id": "d660a444-bfee-4068-bf1f-e43b76b485c3",
+      "name": "Webhook",
+      "webhookId": "c387b09c-4ad1-43f4-9829-11149c5531c9"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "a66471e9-a6ed-403b-8d0a-fde35c5521bd",
+              "leftValue": "={{ $json.body.message.endedReason }}",
+              "rightValue": "customer-busy",
+              "operator": {
+                "type": "string",
+                "operation": "notEquals"
+              }
+            },
+            {
+              "id": "21547050-8756-4de8-9f9b-a8aaf5e50e1c",
+              "leftValue": "={{ $json.body.message.endedReason }}",
+              "rightValue": "customer-did-not-answer",
+              "operator": {
+                "type": "string",
+                "operation": "notEquals"
+              }
+            },
+            {
+              "id": "0bf4b644-c31a-44dc-9564-bba11e0f312b",
+              "leftValue": "={{ $json.body.message.endedReason }}",
+              "rightValue": "exceeded-max-duration",
+              "operator": {
+                "type": "string",
+                "operation": "notEquals"
+              }
+            },
+            {
+              "id": "4100ecd6-83b0-4e61-97b4-ead4b2500448",
+              "leftValue": "={{ $json.body.message.endedReason }}",
+              "rightValue": "silence-timed-out",
+              "operator": {
+                "type": "string",
+                "operation": "notEquals"
+              }
+            },
+            {
+              "id": "4329108e-d81c-4d4a-ae04-b462c31cd7dd",
+              "leftValue": "={{ $json.body.message.endedReason }}",
+              "rightValue": "unknown-error",
+              "operator": {
+                "type": "string",
+                "operation": "notEquals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        220,
+        0
+      ],
+      "id": "2dbc5872-303c-49b5-826a-768f744598a2",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "base": {
+          "__rl": true,
+          "value": "appl6wzW8Ooh1nlF6",
+          "mode": "list",
+          "cachedResultName": "AI Agent",
+          "cachedResultUrl": "https://airtable.com/appl6wzW8Ooh1nlF6"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tblk6cTxRcbgVFS5p",
+          "mode": "list",
+          "cachedResultName": "Leads",
+          "cachedResultUrl": "https://airtable.com/appl6wzW8Ooh1nlF6/tblk6cTxRcbgVFS5p"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Mobile": "={{ $('Webhook').item.json.body.message.call.customer.number }}",
+            "Status": "Called",
+            "Summary": "={{ $json.body.message.analysis.summary }}",
+            "Attempt": "#Success",
+            "Date & Time": "={{ $now }}"
+          },
+          "matchingColumns": [
+            "Mobile"
+          ],
+          "schema": [
+            {
+              "id": "id",
+              "displayName": "id",
+              "required": false,
+              "defaultMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true,
+              "removed": false
+            },
+            {
+              "id": "Date & Time",
+              "displayName": "Date & Time",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "dateTime",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "First Name",
+              "displayName": "First Name",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Last Name",
+              "displayName": "Last Name",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Mobile",
+              "displayName": "Mobile",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "TBC",
+                  "value": "TBC"
+                },
+                {
+                  "name": "In-Progress",
+                  "value": "In-Progress"
+                },
+                {
+                  "name": "Called",
+                  "value": "Called"
+                },
+                {
+                  "name": "Failed",
+                  "value": "Failed"
+                }
+              ],
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Attempt",
+              "displayName": "Attempt",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "#1",
+                  "value": "#1"
+                },
+                {
+                  "name": "#2",
+                  "value": "#2"
+                },
+                {
+                  "name": "#Unreachable",
+                  "value": "#Unreachable"
+                },
+                {
+                  "name": "#Success",
+                  "value": "#Success"
+                }
+              ],
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Summary",
+              "displayName": "Summary",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Assigne",
+              "displayName": "Assigne",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        660,
+        -140
+      ],
+      "id": "941de315-00a0-4845-9c31-fb301367e7da",
+      "name": "Airtable",
+      "alwaysOutputData": false,
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "q1YxjzyrwRrwesLe",
+          "name": "Airtable Personal Access Token account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "create",
+        "base": {
+          "__rl": true,
+          "value": "appl6wzW8Ooh1nlF6",
+          "mode": "list",
+          "cachedResultName": "AI Agent",
+          "cachedResultUrl": "https://airtable.com/appl6wzW8Ooh1nlF6"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tblo4ac8TLlK5Xc6R",
+          "mode": "list",
+          "cachedResultName": "Call Records",
+          "cachedResultUrl": "https://airtable.com/appl6wzW8Ooh1nlF6/tblo4ac8TLlK5Xc6R"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "callproviderID": "={{ $json.body.message.call.phoneCallProviderId }}",
+            "id": "={{ $json.body.message.call.id }}",
+            "phonenumberID": "={{ $('Webhook').item.json.body.message.call.phoneNumberId }}",
+            "customernumber": "={{ $json.body.message.call.customer.number }}",
+            "type": "={{ $json.body.message.call.type }}",
+            "started": "={{ $json.body.message.startedAt }}",
+            "ended": "={{ $json.body.message.endedAt }}",
+            "ended reason": "={{ $json.body.message.endedReason }}",
+            "transcript": "={{ $json.body.message.artifact.transcript }}",
+            "milliseconds": 0,
+            "cost(stt)": 0,
+            "cost(llm)": 0,
+            "cost(tts)": 0,
+            "cost(total)": 0,
+            "cost(twilio)": 0,
+            "cost(totals)": 0
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "id",
+              "displayName": "id",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "callproviderID",
+              "displayName": "callproviderID",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "phonenumberID",
+              "displayName": "phonenumberID",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "customernumber",
+              "displayName": "customernumber",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "type",
+              "displayName": "type",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "started",
+              "displayName": "started",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "ended",
+              "displayName": "ended",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "milliseconds",
+              "displayName": "milliseconds",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "cost(stt)",
+              "displayName": "cost(stt)",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "cost(llm)",
+              "displayName": "cost(llm)",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "cost(tts)",
+              "displayName": "cost(tts)",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "cost(total)",
+              "displayName": "cost(total)",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "cost(twilio)",
+              "displayName": "cost(twilio)",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "cost(totals)",
+              "displayName": "cost(totals)",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "ended reason",
+              "displayName": "ended reason",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "transcript",
+              "displayName": "transcript",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "recording",
+              "displayName": "recording",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        440,
+        -120
+      ],
+      "id": "18eb8576-14a1-41ce-bd2a-ea59d0a00b27",
+      "name": "Airtable1",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "q1YxjzyrwRrwesLe",
+          "name": "Airtable Personal Access Token account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "base": {
+          "__rl": true,
+          "value": "appl6wzW8Ooh1nlF6",
+          "mode": "list",
+          "cachedResultName": "AI Agent",
+          "cachedResultUrl": "https://airtable.com/appl6wzW8Ooh1nlF6"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tblk6cTxRcbgVFS5p",
+          "mode": "list",
+          "cachedResultName": "Leads",
+          "cachedResultUrl": "https://airtable.com/appl6wzW8Ooh1nlF6/tblk6cTxRcbgVFS5p"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Mobile": "={{ $('Airtable4').item.json.Mobile }}",
+            "Status": "In-Progress",
+            "Attempt": "#2"
+          },
+          "matchingColumns": [
+            "Mobile"
+          ],
+          "schema": [
+            {
+              "id": "id",
+              "displayName": "id",
+              "required": false,
+              "defaultMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true,
+              "removed": false
+            },
+            {
+              "id": "Date & Time",
+              "displayName": "Date & Time",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "dateTime",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "First Name",
+              "displayName": "First Name",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Last Name",
+              "displayName": "Last Name",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Mobile",
+              "displayName": "Mobile",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "TBC",
+                  "value": "TBC"
+                },
+                {
+                  "name": "In-Progress",
+                  "value": "In-Progress"
+                },
+                {
+                  "name": "Called",
+                  "value": "Called"
+                },
+                {
+                  "name": "Failed",
+                  "value": "Failed"
+                }
+              ],
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Attempt",
+              "displayName": "Attempt",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "#1",
+                  "value": "#1"
+                },
+                {
+                  "name": "#2",
+                  "value": "#2"
+                },
+                {
+                  "name": "#Unreachable",
+                  "value": "#Unreachable"
+                },
+                {
+                  "name": "#Success",
+                  "value": "#Success"
+                }
+              ],
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Summary",
+              "displayName": "Summary",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Assigne",
+              "displayName": "Assigne",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        880,
+        20
+      ],
+      "id": "47f6764e-7409-46a4-9974-68e6277a603f",
+      "name": "Airtable2",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "q1YxjzyrwRrwesLe",
+          "name": "Airtable Personal Access Token account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "amount": 1
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        1080,
+        20
+      ],
+      "id": "fa2f278d-e953-4a33-94d0-1563df847641",
+      "name": "Wait",
+      "webhookId": "3c6aac08-27c9-48fa-8106-e11cbe6aa056"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.vapi.ai/call",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer 08a6237a-7513-4c9f-8f6d-7d1e9993ee0c"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"assistantId\": \"a30ad7e1-7806-4c41-b1a3-6e34bd26e86e\",\n  \"customer\": {\n    \"name\": \"{{ $('Airtable2').item.json.fields['First Name'] }}\",\n    \"number\": \"{{ $('Airtable2').item.json.fields.Mobile }}\"\n  },\n  \"phoneNumberId\": \"54ec4a24-8d9b-4af1-968e-ee55a251156f\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1280,
+        20
+      ],
+      "id": "4018186d-48b2-4216-bae1-1fa50587c868",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "base": {
+          "__rl": true,
+          "value": "appl6wzW8Ooh1nlF6",
+          "mode": "list",
+          "cachedResultName": "AI Agent",
+          "cachedResultUrl": "https://airtable.com/appl6wzW8Ooh1nlF6"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tblk6cTxRcbgVFS5p",
+          "mode": "list",
+          "cachedResultName": "Leads",
+          "cachedResultUrl": "https://airtable.com/appl6wzW8Ooh1nlF6/tblk6cTxRcbgVFS5p"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Mobile": "={{ $json.customer.number }}",
+            "Attempt": "#2",
+            "Status": "TBC",
+            "Date & Time": "={{ $now }}"
+          },
+          "matchingColumns": [
+            "Mobile"
+          ],
+          "schema": [
+            {
+              "id": "id",
+              "displayName": "id",
+              "required": false,
+              "defaultMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true,
+              "removed": false
+            },
+            {
+              "id": "Date & Time",
+              "displayName": "Date & Time",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "dateTime",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "First Name",
+              "displayName": "First Name",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Last Name",
+              "displayName": "Last Name",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Mobile",
+              "displayName": "Mobile",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "TBC",
+                  "value": "TBC"
+                },
+                {
+                  "name": "In-Progress",
+                  "value": "In-Progress"
+                },
+                {
+                  "name": "Called",
+                  "value": "Called"
+                },
+                {
+                  "name": "Failed",
+                  "value": "Failed"
+                }
+              ],
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Attempt",
+              "displayName": "Attempt",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "#1",
+                  "value": "#1"
+                },
+                {
+                  "name": "#2",
+                  "value": "#2"
+                },
+                {
+                  "name": "#Unreachable",
+                  "value": "#Unreachable"
+                },
+                {
+                  "name": "#Success",
+                  "value": "#Success"
+                }
+              ],
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Summary",
+              "displayName": "Summary",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Assigne",
+              "displayName": "Assigne",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        1480,
+        20
+      ],
+      "id": "c651a5ec-fc80-4188-8263-b9784b8990a6",
+      "name": "Airtable3",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "q1YxjzyrwRrwesLe",
+          "name": "Airtable Personal Access Token account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "search",
+        "base": {
+          "__rl": true,
+          "value": "appl6wzW8Ooh1nlF6",
+          "mode": "list",
+          "cachedResultName": "AI Agent",
+          "cachedResultUrl": "https://airtable.com/appl6wzW8Ooh1nlF6"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tblk6cTxRcbgVFS5p",
+          "mode": "list",
+          "cachedResultName": "Leads",
+          "cachedResultUrl": "https://airtable.com/appl6wzW8Ooh1nlF6/tblk6cTxRcbgVFS5p"
+        },
+        "filterByFormula": "=({Mobile}='{{ $('Webhook').item.json.body.message.customer.number }}')",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        440,
+        100
+      ],
+      "id": "a900c3fc-bbf9-4fe1-b3a5-779fa43faa5b",
+      "name": "Airtable4",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "q1YxjzyrwRrwesLe",
+          "name": "Airtable Personal Access Token account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "23c223cb-79ee-4972-8590-c46564e5018a",
+              "leftValue": "={{ $json.Attempt }}",
+              "rightValue": "#1",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        660,
+        120
+      ],
+      "id": "4e887dbf-5946-41a2-bf12-1dd112e0638f",
+      "name": "If1"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "base": {
+          "__rl": true,
+          "value": "appl6wzW8Ooh1nlF6",
+          "mode": "list",
+          "cachedResultName": "AI Agent",
+          "cachedResultUrl": "https://airtable.com/appl6wzW8Ooh1nlF6"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tblk6cTxRcbgVFS5p",
+          "mode": "list",
+          "cachedResultName": "Leads",
+          "cachedResultUrl": "https://airtable.com/appl6wzW8Ooh1nlF6/tblk6cTxRcbgVFS5p"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Mobile": "={{ $('Airtable4').item.json.Mobile }}",
+            "Status": "Failed",
+            "Attempt": "#Unreachable",
+            "Date & Time": "={{ $now }}"
+          },
+          "matchingColumns": [
+            "Mobile"
+          ],
+          "schema": [
+            {
+              "id": "id",
+              "displayName": "id",
+              "required": false,
+              "defaultMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true,
+              "removed": false
+            },
+            {
+              "id": "Date & Time",
+              "displayName": "Date & Time",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "dateTime",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "First Name",
+              "displayName": "First Name",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Last Name",
+              "displayName": "Last Name",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Mobile",
+              "displayName": "Mobile",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "TBC",
+                  "value": "TBC"
+                },
+                {
+                  "name": "In-Progress",
+                  "value": "In-Progress"
+                },
+                {
+                  "name": "Called",
+                  "value": "Called"
+                },
+                {
+                  "name": "Failed",
+                  "value": "Failed"
+                }
+              ],
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Attempt",
+              "displayName": "Attempt",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "#1",
+                  "value": "#1"
+                },
+                {
+                  "name": "#2",
+                  "value": "#2"
+                },
+                {
+                  "name": "#Unreachable",
+                  "value": "#Unreachable"
+                },
+                {
+                  "name": "#Success",
+                  "value": "#Success"
+                }
+              ],
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Summary",
+              "displayName": "Summary",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Assigne",
+              "displayName": "Assigne",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        880,
+        220
+      ],
+      "id": "b3869ff3-8da1-47a0-9cde-2d91884ae5a3",
+      "name": "Airtable5",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "q1YxjzyrwRrwesLe",
+          "name": "Airtable Personal Access Token account 2"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Airtable1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Airtable4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Airtable1": {
+      "main": [
+        [
+          {
+            "node": "Airtable",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Airtable2": {
+      "main": [
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Airtable3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Airtable4": {
+      "main": [
+        [
+          {
+            "node": "If1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If1": {
+      "main": [
+        [
+          {
+            "node": "Airtable2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Airtable5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "7528c32a-c561-45a3-85f4-a434259ec3df",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "19372026755f3e432f157863e3263d66d29e0c134774d3d0f3fb6da29e84dc43"
+  },
+  "id": "qyqx5zivdS8yGegB",
+  "tags": []
+}
