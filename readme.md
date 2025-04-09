@@ -57,6 +57,11 @@ n8n Workflow
 
 ---
 
+Twilio 
+Get yourself a mobile number that best meets your requirements and connect it to vapi agent, for which you can refer to any YouTube video.
+
+---
+
 Video explanation link 
 https://drive.google.com/file/d/1M8JLnY7FzEFHRwlngTh3sFsJnSSa9gmP/view?usp=sharing
 ---
